@@ -15,7 +15,7 @@ public class UserRole implements Serializable {
     private String name;
 
     /**
-     * used by Hibernate
+     * Used by Hibernate.
      */
     public UserRole() {
     }

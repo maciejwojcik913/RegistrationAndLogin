@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User implements Serializable {
     public static final long serialVersionUID = 13L;
 
@@ -30,7 +30,7 @@ public class User implements Serializable {
 
     private boolean enabled = true;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
@@ -38,7 +38,7 @@ public class User implements Serializable {
     private Set<UserRole> roles = new HashSet<>();
 
     /**
-     * used by Hibernate
+     * Used by Hibernate
      */
     public User() {
     }
