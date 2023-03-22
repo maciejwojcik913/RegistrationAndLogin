@@ -51,9 +51,9 @@ public class MatchingFieldsValidator implements ConstraintValidator<MatchingFiel
         }
         );
 
+        context.disableDefaultConstraintViolation();
         for (Object o : toCompare) {
             if ( (o == null) || (!o.equals(toCompare.get(0))) ) {
-                context.disableDefaultConstraintViolation();
                 context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
                 return false;
             }
