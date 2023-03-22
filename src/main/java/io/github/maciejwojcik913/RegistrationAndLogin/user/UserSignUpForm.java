@@ -5,9 +5,7 @@ import io.github.maciejwojcik913.RegistrationAndLogin.validation.MatchingFields;
 import io.github.maciejwojcik913.RegistrationAndLogin.validation.MatchingFieldsGroups;
 import io.github.maciejwojcik913.RegistrationAndLogin.validation.Password;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 /**
  * Write model for registration of user.<br>
@@ -20,26 +18,29 @@ import javax.validation.constraints.NotNull;
 public class UserSignUpForm {
 
     // TODO: extract messages to file
-
     private final String INVALID_EMAIL_MESSAGE = "Email is not valid";
     private final String EMAIL_REGEXP = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+    private final String LOGIN_TOO_SHORT = "Invalid login: login must be between {min} and {max} long.";
+    private final String FIELDS_EMPTY = "Form contains empty fields.";
+
 
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = FIELDS_EMPTY)
     @Email(message = INVALID_EMAIL_MESSAGE, regexp = EMAIL_REGEXP)
     private String email;
 
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = FIELDS_EMPTY)
+    @Size(min = 6, max = 64, message = LOGIN_TOO_SHORT)
     private String login;
 
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = FIELDS_EMPTY)
     @Password(minLength = 8)
     private String password;
 
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = FIELDS_EMPTY)
     private String pwdConf;
 
     public UserSignUpForm() {
