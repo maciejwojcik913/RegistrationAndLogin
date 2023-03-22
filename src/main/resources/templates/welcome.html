@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/forms.css" type="text/css"/>
+    <title>Welcome</title>
+</head>
+<body>
+    <div class="welcome">
+        <h1>Welcome!</h1>
+
+        <br>
+
+        <div class="float-right logged-in">
+            <a href="/api/logout">Log-out: <span></span></a>
+        </div>
+
+        <span class="clear-float">
+            <br><br>
+        </span>
+
+        <div class="logged-out">
+            Hello! <br>
+            Please Sign-In or Sign-Up.
+            <br><br>
+            <a href="/api/login">
+                <button class="small-button">Sign-In</button>
+            </a>
+            <a href="/api/register">
+                <button class="small-button">Sign-Up</button>
+            </a>
+        </div>
+
+        <div class="logged-in">
+            Welcome! <br>
+            You can start working. Click below to open your panel.
+            <br><br>
+            <a href="/api/user">
+                <button class="small-button">User panel</button>
+            </a>
+            <a href="/api/admin">
+                <button class="small-button">Admin panel</button>
+            </a>
+            <a href="/api/staff">
+                <button class="small-button">Staff panel</button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

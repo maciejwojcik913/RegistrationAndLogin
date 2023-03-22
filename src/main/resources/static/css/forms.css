@@ -1,0 +1,70 @@
+<style>
+        :root {
+        }
+
+        body {
+            font-family: "Calibri";
+        }
+
+        .welcome {
+            width: auto;
+            margin: auto;
+            padding: 2%;
+            text-align: center;
+        }
+
+        .form-wrapper {
+            margin: auto;
+            margin-top: 10%;
+            width: 25%;
+            border-radius: 0.5em;
+            border: 2px solid black;
+            padding: 2%;
+            text-align: center;
+        }
+
+        .form-input {
+            margin: 2%;
+            width: 75%;
+            padding: 2% 2%;
+            line-height: 5%;
+            border: solid 1px gray;
+            border-radius: 0.5em;
+            font-size: 1em;
+            text-align: center;
+        }
+
+        button {
+            width: 25%;
+            padding: 2%;
+            margin: 10px;
+            font-size: 1em;
+        }
+
+        .small-button {
+            width: 10%;
+            padding: 1%;
+            margin: 10px;
+            font-size: 1em;
+        }
+
+        li.input-error {
+            color: red;
+        }
+
+        .logged-out {
+            font-size: 20px;
+        }
+
+        .logged-in {
+            font-size: 20px;
+        }
+
+        .float-right {
+            float: right;
+        }
+
+        .clear-float {
+            clear: both;
+        }
+</style>

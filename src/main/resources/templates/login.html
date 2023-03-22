@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/forms.css" type="text/css"/>
+    <title>Registration</title>
+</head>
+<body>
+<div class="form-wrapper">
+    <h1>LOGIN</h1>
+    <form action="/api/login" th:object="${userLogin}" method="post">
+        <div>
+            <input th:field="*{emailOrLogin}" placeholder="EMAIL OR LOGIN" class="form-input"/><br>
+        </div>
+        <div>
+            <input th:field="*{password}" type="password" placeholder="PASSWORD" class="form-input"/><br>
+        </div>
+        <div th:if="${#fields.hasAnyErrors()}">
+            <ul>
+                <small>
+                    <li th:each="err : ${#fields.allErrors()}" th:text="${err}" th:class="input-error"
+                        style="list-style-type: none;"></li>
+                </small>
+            </ul>
+        </div>
+        <button type="submit">LOGIN</button>
+        <button type="reset">CLEAR</button>
+        <br><a href="/api/welcome">or back to welcome page</a>
+    </form>
+</div>
+</body>
+</html>
