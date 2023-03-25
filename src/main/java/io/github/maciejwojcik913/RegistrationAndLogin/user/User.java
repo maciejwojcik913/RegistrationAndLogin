@@ -10,7 +10,7 @@ import java.util.Set;
 public class User implements Serializable {
     public static final long serialVersionUID = 13L;
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(length = 100, nullable = false, unique = true)

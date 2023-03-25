@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class UserRole implements Serializable {
     public static final long serialVersionUID = 13L;
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(length = 30)
