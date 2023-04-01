@@ -1,4 +1,4 @@
-package io.github.maciejwojcik913.RegistrationAndLogin.user;
+package io.github.maciejwojcik913.RegistrationAndLogin.user.registration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

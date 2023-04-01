@@ -1,4 +1,4 @@
-package io.github.maciejwojcik913.RegistrationAndLogin.user;
+package io.github.maciejwojcik913.RegistrationAndLogin.user.registration;
 
 import io.github.maciejwojcik913.RegistrationAndLogin.validation.ManualConstraintValidator;
 import io.github.maciejwojcik913.RegistrationAndLogin.validation.MatchingFields;

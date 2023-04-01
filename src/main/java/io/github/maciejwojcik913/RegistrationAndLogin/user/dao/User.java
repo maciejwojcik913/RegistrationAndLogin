@@ -1,4 +1,4 @@
-package io.github.maciejwojcik913.RegistrationAndLogin.user;
+package io.github.maciejwojcik913.RegistrationAndLogin.user.dao;
 
 import javax.persistence.*;
 import java.io.Serializable;

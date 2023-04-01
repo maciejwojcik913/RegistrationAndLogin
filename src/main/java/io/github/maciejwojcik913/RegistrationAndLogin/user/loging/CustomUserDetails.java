@@ -1,5 +1,7 @@
-package io.github.maciejwojcik913.RegistrationAndLogin.user;
+package io.github.maciejwojcik913.RegistrationAndLogin.user.loging;
 
+import io.github.maciejwojcik913.RegistrationAndLogin.user.dao.User;
+import io.github.maciejwojcik913.RegistrationAndLogin.user.dao.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

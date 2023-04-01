@@ -1,4 +1,4 @@
-package io.github.maciejwojcik913.RegistrationAndLogin.user;
+package io.github.maciejwojcik913.RegistrationAndLogin.user.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

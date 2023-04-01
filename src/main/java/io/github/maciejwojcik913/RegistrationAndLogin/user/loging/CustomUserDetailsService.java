@@ -1,5 +1,7 @@
-package io.github.maciejwojcik913.RegistrationAndLogin.user;
+package io.github.maciejwojcik913.RegistrationAndLogin.user.loging;
 
+import io.github.maciejwojcik913.RegistrationAndLogin.user.dao.User;
+import io.github.maciejwojcik913.RegistrationAndLogin.user.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

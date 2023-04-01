@@ -1,4 +1,4 @@
-package io.github.maciejwojcik913.RegistrationAndLogin.user;
+package io.github.maciejwojcik913.RegistrationAndLogin.user.loging;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
