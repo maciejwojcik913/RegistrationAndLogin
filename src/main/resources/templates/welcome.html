@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +14,7 @@
 
         <br>
 
-        <div class="float-right logged-in">
+        <div class="float-right logged-in" sec:authorize="isAuthenticated()">
             <a href="/api/logout">Log-out: <span></span></a>
         </div>
 
@@ -22,7 +22,7 @@
             <br><br>
         </span>
 
-        <div class="logged-out">
+        <div class="logged-out" sec:authorize="!isAuthenticated()">
             Hello! <br>
             Please Sign-In or Sign-Up.
             <br><br>
@@ -34,17 +34,17 @@
             </a>
         </div>
 
-        <div class="logged-in">
+        <div class="logged-in" sec:authorize="isAuthenticated()">
             Welcome! <br>
             You can start working. Click below to open your panel.
             <br><br>
-            <a href="/api/user">
+            <a href="/api/user" sec:authorize="hasRole('USER')">
                 <button class="small-button">User panel</button>
             </a>
-            <a href="/api/admin">
+            <a href="/api/admin" sec:authorize="hasRole('ADMIN')">
                 <button class="small-button">Admin panel</button>
             </a>
-            <a href="/api/staff">
+            <a href="/api/staff" sec:authorize="hasRole('STAFF')">
                 <button class="small-button">Staff panel</button>
             </a>
         </div>

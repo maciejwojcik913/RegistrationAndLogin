@@ -10,7 +10,6 @@ import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -101,17 +100,27 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
+        http.authorizeRequests()
+                .expressionHandler(webSecurityExpressionHandler())
+                .antMatchers("/api/user/**").hasRole("USER")
+                .antMatchers("/api/admin/**").hasRole("ADMIN")
+                .antMatchers("/api/staff/**").hasRole("STAFF")
+                .antMatchers("/api/login").not().authenticated()
+                .antMatchers("/api/register").not().authenticated()
+                .antMatchers("/api/**").permitAll();
+        http.formLogin()
+                .loginPage("/api/login")
+                .defaultSuccessUrl("/api/welcome")
+                //.failureUrl("/api/login?error=true") //TODO to specify with login controller
+                .and()
+                .logout()
+                .logoutUrl("/api/logout");
+
         if (profileIsActive("dev")) {
             http.csrf().disable();
             http.headers().frameOptions().disable();
+            http.authorizeRequests().antMatchers("/**").permitAll();
         }
-
-        http //TODO
-                .authorizeRequests()
-                .expressionHandler(webSecurityExpressionHandler())
-                .antMatchers("/**").permitAll();
-
-        http.httpBasic(Customizer.withDefaults());
 
         return http.build();
     }
