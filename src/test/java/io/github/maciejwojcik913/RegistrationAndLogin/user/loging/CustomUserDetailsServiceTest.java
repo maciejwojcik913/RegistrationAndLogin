@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ class CustomUserDetailsServiceTest {
 
     private CustomUserDetailsService SUT;
     private UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder = setUpPasswordEncoder();
 
     @BeforeEach
     public void setup() {
@@ -31,7 +33,7 @@ class CustomUserDetailsServiceTest {
     @Test
     void loadUserByUsername_shouldReturn_CustomUserDetails_withAppropriateDataIfUserExists() {
         //given
-        var user = new User("test.user@testing.yxz", "user123", "secret");
+        var user = new User("test.user@testing.yxz", "user123", passwordEncoder.encode("secret"));
         user.setId(5L);
         given(userRepository.findByLoginOrEmail("test.user@testing.yxz")).willReturn(Optional.of(user));
 
@@ -43,7 +45,7 @@ class CustomUserDetailsServiceTest {
                 () -> assertThat(userDetails.getId(), equalTo(5L)),
                 () -> assertThat(userDetails.getEmail(), equalTo("test.user@testing.yxz")),
                 () -> assertThat(userDetails.getUsername(), equalTo("user123")),
-                () -> assertThat(userDetails.getPassword(), equalTo("")),
+                () -> assertThat(userDetails.getPassword(), equalTo(passwordEncoder.encode("secret"))),
                 () -> assertThat(userDetails.isEnabled(), is(true))
         );
     }
@@ -57,5 +59,24 @@ class CustomUserDetailsServiceTest {
         assertThrows(UsernameNotFoundException.class,
                 () -> SUT.loadUserByUsername("wrongArgument")
                 );
+    }
+
+    /**
+     * @return custom password encoder that imitates bean PasswordEncoder
+     */
+    private PasswordEncoder setUpPasswordEncoder() {
+        return new PasswordEncoder() {
+            @Override
+            public String encode(CharSequence rawPassword) {
+                String[] encoded = {""};
+                rawPassword.chars().forEach(ch -> encoded[0] += (char)(ch+13));
+                return encoded[0];
+            }
+
+            @Override
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                return encode(rawPassword).equals(encodedPassword);
+            }
+        };
     }
 }

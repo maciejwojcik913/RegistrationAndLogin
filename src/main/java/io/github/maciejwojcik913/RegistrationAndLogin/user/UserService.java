@@ -18,7 +18,6 @@ import javax.transaction.Transactional;
 import java.util.Set;
 
 @Service
-@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -40,6 +39,7 @@ public class UserService {
      * @param registrationForm to register
      * @return UserSignUpForm of saved user.
      */
+    @Transactional
     public UserSignUpForm registerNewUser(final UserSignUpForm registrationForm) {
 
         if (userRepository.findByEmail(registrationForm.getEmail()).isPresent()) {
@@ -59,9 +59,8 @@ public class UserService {
         user.setRoles(Set.of(roleRepository.getDefaultRole()));
         var saved = userRepository.save(user);
 
-        return new UserSignUpForm(saved.getEmail(), saved.getLogin(), "", "");
+        return new UserSignUpForm(saved.getEmail(), saved.getLogin(), saved.getPassword(), saved.getPassword());
     }
-
 
     public CustomUserDetails loginUser(final UserSignInForm loginForm) {
         return userDetailsService.loadUserByUsername(loginForm.getEmailOrLogin());

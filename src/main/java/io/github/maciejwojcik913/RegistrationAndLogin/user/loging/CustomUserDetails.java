@@ -33,7 +33,7 @@ public class CustomUserDetails implements UserDetails {
         this.id = user.getId();
         this.email = user.getEmail();
         this.login = user.getLogin();
-        this.password = "";
+        this.password = user.getPassword();
         this.enabled = user.isEnabled();
         this.authorities = mapRolesToAuthorities(user.getRoles());
     }

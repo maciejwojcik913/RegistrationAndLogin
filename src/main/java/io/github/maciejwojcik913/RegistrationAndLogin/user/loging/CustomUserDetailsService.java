@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 /**
@@ -15,7 +14,6 @@ import java.util.Optional;
  * Contains one method loadUserByUsername from interface UserDetailsService which returns custom implementation of UserDetails.
  */
 @Service
-@Transactional
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;

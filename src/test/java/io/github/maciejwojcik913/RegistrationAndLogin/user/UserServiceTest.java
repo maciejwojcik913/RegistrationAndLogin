@@ -31,7 +31,7 @@ class UserServiceTest {
 
     private UserService SUT;
     @Mock private UserRepository userRepository;
-    @Mock private PasswordEncoder passwordEncoder = Mockito.mock(PasswordEncoder.class);
+    private final PasswordEncoder passwordEncoder = setUpPasswordEncoder();
     @Mock private RoleRepository roleRepository = Mockito.mock(RoleRepository.class);
     @Mock private CustomUserDetailsService userDetailsService = Mockito.mock(CustomUserDetailsService.class);
 
@@ -76,11 +76,10 @@ class UserServiceTest {
         // given
         var regForm = new UserSignUpForm("email", "login", "secret", "secret");
         var defaultRole = new UserRole("ROLE_USER");
-        var encodedPassword = "********";
+        var encodedPassword = passwordEncoder.encode("secret");
         var user = new User("email", "login", encodedPassword);
         user.setRoles(Set.of(defaultRole));
 
-        given(passwordEncoder.encode(any(String.class))).willReturn("********");
         given(roleRepository.getDefaultRole()).willReturn(defaultRole);
         given(userRepository.save(any(User.class))).willReturn(user);
 
@@ -92,8 +91,7 @@ class UserServiceTest {
                 () -> assertDoesNotThrow( () -> SUT.registerNewUser(regForm) ),
                 () -> assertThat(registered.getEmail(), equalTo(regForm.getEmail())),
                 () -> assertThat(registered.getLogin(), equalTo(regForm.getLogin())),
-                () -> assertThat(registered.getPassword().length(), equalTo(0)),
-                () -> assertThat(registered.getPwdConf().length(), equalTo(0))
+                () -> assertThat(registered.getPassword(), equalTo(passwordEncoder.encode("secret")))
         );
     }
 
@@ -110,7 +108,7 @@ class UserServiceTest {
     @Test
     void loginUser_shouldReturnUserDetailsIfFormIsCorrect() {
         // given
-        var user = new User("email", "login", "password");
+        var user = new User("email", "login", passwordEncoder.encode("password"));
         user.setRoles( Set.of( new UserRole("ROLE_USER") ) );
         given(userDetailsService.loadUserByUsername(any())).willReturn(new CustomUserDetails(user));
         var loginForm = new UserSignInForm( user.getLogin(), user.getPassword() );
@@ -122,10 +120,29 @@ class UserServiceTest {
         assertAll(
                 () -> assertThat(userDetails.getUsername(), equalTo(user.getLogin())),
                 () -> assertThat(userDetails.getEmail(), equalTo(user.getEmail())),
-                () -> assertThat(userDetails.getPassword().length(), equalTo(0)),
+                () -> assertThat(userDetails.getPassword(), equalTo(passwordEncoder.encode("password"))),
                 () -> assertTrue(userDetails.isEnabled()),
                 () -> assertTrue(userDetails.getAuthorities().stream().anyMatch(
                         a -> a.getAuthority().equals("ROLE_USER")))
         );
+    }
+
+    /**
+     * @return custom password encoder that imitates bean PasswordEncoder
+     */
+    private PasswordEncoder setUpPasswordEncoder() {
+        return new PasswordEncoder() {
+            @Override
+            public String encode(CharSequence rawPassword) {
+                String[] encoded = {""};
+                rawPassword.chars().forEach(ch -> encoded[0] += (char)(ch+13));
+                return encoded[0];
+            }
+
+            @Override
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                return encode(rawPassword).equals(encodedPassword);
+            }
+        };
     }
 }
