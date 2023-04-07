@@ -53,6 +53,7 @@ public class WebSecurityConfig {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
+        authenticationProvider.setHideUserNotFoundExceptions(false);
         return authenticationProvider;
     }
 
@@ -77,7 +78,7 @@ public class WebSecurityConfig {
     @Bean
     public RoleHierarchy roleHierarchy() {
         var hierarchy = new RoleHierarchyImpl();
-        hierarchy.setHierarchy("ROLE_ADMIN > ROLE_STAFF and ROLE_STAFF > ROLE_USER");
+        hierarchy.setHierarchy("ROLE_ADMIN > ROLE_STAFF > ROLE_USER");
         return hierarchy;
     }
 
@@ -100,28 +101,31 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests()
-                .expressionHandler(webSecurityExpressionHandler())
-                .antMatchers("/api/user/**").hasRole("USER")
-                .antMatchers("/api/admin/**").hasRole("ADMIN")
-                .antMatchers("/api/staff/**").hasRole("STAFF")
-                .antMatchers("/api/login").not().authenticated()
-                .antMatchers("/api/register").not().authenticated()
-                .antMatchers("/api/**").permitAll();
-        http.formLogin()
-                .loginPage("/api/login")
-                .defaultSuccessUrl("/api/welcome")
-                //.failureUrl("/api/login?error=true") //TODO to specify with login controller
+        http
+                    .authorizeRequests()
+                    .expressionHandler(webSecurityExpressionHandler())
+                    .antMatchers("/api/admin/**").hasRole("ADMIN")
+                    .antMatchers("/api/staff/**").hasRole("STAFF")
+                    .antMatchers("/api/user/**").hasRole("USER")
+                    .antMatchers("/api/register").permitAll()
+                    .antMatchers("/api/**").permitAll()
                 .and()
-                .logout()
-                .logoutUrl("/api/logout");
+                    .formLogin()
+                    .loginPage("/api/login")
+                    .defaultSuccessUrl("/api/", true)
+                    .failureUrl("/api/login?error=bad-credentials")
+                    .permitAll()
+                    .usernameParameter("emailOrLogin")
+                    .passwordParameter("password")
+                .and()
+                    .logout()
+                    .logoutUrl("/api/login?logout")
+                    .logoutSuccessUrl("/api/welcome")
+                    .permitAll()
 
-        if (profileIsActive("dev")) {
-            http.csrf().disable();
-            http.headers().frameOptions().disable();
-            http.authorizeRequests().antMatchers("/**").permitAll();
-        }
-
+                .and().csrf().ignoringAntMatchers("/h2-console/**")
+                .and().headers().frameOptions().sameOrigin()
+                ;
         return http.build();
     }
 
