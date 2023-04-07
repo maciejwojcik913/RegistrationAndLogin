@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,13 +14,15 @@
 
         <br>
 
-        <div class="float-right logged-in">
-            <a href="/api/logout">Log-out: <span></span></a>
+        <div class="float-right logged-in" sec:authorize="isAuthenticated()">
+            <a href="/api/login?logout">Log-out: </a>
+            <span sec:authentication="name"></span>
+            <br><span sec:authentication="principal.authorities"></span>
         </div>
-
         <span class="clear-float">
             <br><br>
         </span>
+        <br><br>
 
         <div class="logged-in">
             Welcome to your Admin-Panel! <br>

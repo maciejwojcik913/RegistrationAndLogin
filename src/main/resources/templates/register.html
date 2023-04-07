@@ -12,6 +12,8 @@
 <div class="form-wrapper">
     <h1>REGISTRATION</h1>
     <form action="/api/register" th:object="${userReg}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
         <div>
             <input th:field="*{email}" type="email" placeholder="EMAIL ADDRESS" class="form-input"/><br>
         </div>
@@ -24,16 +26,18 @@
         <div>
             <input th:field="*{pwdConf}" type="password" placeholder="CONFIRM PASSWORD" class="form-input"/><br>
         </div>
-        <div th:if="${#fields.hasAnyErrors()}">
-            <ul>
+        <div>
+            <ul th:if="${#fields.hasAnyErrors()}">
                 <small>
                     <li th:each="err : ${#fields.allErrors()}" th:text="${err}" th:class="input-error"
                         style="list-style-type: none;"></li>
                 </small>
             </ul>
+            <small><span th:text="${regError}" th:class="input-error"></span></small>
         </div>
         <button type="submit">REGISTER</button>
         <button type="reset">CLEAR</button>
+        <br><a href="/api/login">or go to login page</a>
         <br><a href="/api/welcome">or back to welcome page</a>
     </form>
 </div>

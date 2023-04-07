@@ -15,14 +15,14 @@
         <br>
 
         <div class="float-right logged-in" sec:authorize="isAuthenticated()">
-            <a href="/api/logout">Log-out: </a>
+            <a href="/api/login?logout">Log-out: </a>
             <span sec:authentication="name"></span>
             <br><span sec:authentication="principal.authorities"></span>
         </div>
-
         <span class="clear-float">
             <br><br>
         </span>
+        <br><br>
 
         <div class="logged-out" sec:authorize="!isAuthenticated()">
             Hello! <br>

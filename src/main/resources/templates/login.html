@@ -6,28 +6,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/forms.css" type="text/css"/>
-    <title>Registration</title>
+    <title>Login</title>
 </head>
 <body>
 <div class="form-wrapper">
     <h1>LOGIN</h1>
     <form action="/api/login" th:object="${userLogin}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <div>
             <input th:field="*{emailOrLogin}" placeholder="EMAIL OR LOGIN" class="form-input"/><br>
         </div>
         <div>
             <input th:field="*{password}" type="password" placeholder="PASSWORD" class="form-input"/><br>
         </div>
-        <div th:if="${#fields.hasAnyErrors()}">
-            <ul>
+        <div>
+            <ul th:if="${#fields.hasAnyErrors()}">
                 <small>
                     <li th:each="err : ${#fields.allErrors()}" th:text="${err}" th:class="input-error"
                         style="list-style-type: none;"></li>
                 </small>
             </ul>
+            <small><span th:text="${badCredentials}" th:class="input-error"></span></small>
         </div>
+
         <button type="submit">LOGIN</button>
         <button type="reset">CLEAR</button>
+        <br><a href="/api/register">or go to registration page</a>
         <br><a href="/api/welcome">or back to welcome page</a>
     </form>
 </div>
