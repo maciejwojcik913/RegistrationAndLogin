@@ -3,7 +3,7 @@ package io.github.maciejwojcik913.RegistrationAndLogin.exception;
 /**
  * TODO raised....
  */
-public class UsernameAlreadyExistsException extends BusinessException{
+public class UsernameAlreadyExistsException extends RegistrationException {
 
     public UsernameAlreadyExistsException(String message) {
         super(message);
