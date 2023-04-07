@@ -21,7 +21,7 @@ public @interface MatchingFields{
 
     /**
      * Specify an array of field names, that should be validated as equals in annotated class.<br>
-     * Example: @MatchingFields(fields = {"password", "passwordConfirmation"})
+     * Example: @MatchingFields(name = "Passwords", fields = {"password", "passwordConfirmation"})
      */
     String[] fields();
 

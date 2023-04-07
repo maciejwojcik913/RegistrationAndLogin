@@ -26,7 +26,7 @@ public @interface Password {
 
     int minUpperCaseLetters() default 0;
 
-    boolean allowsWhiteSpace() default true;
+    boolean allowsWhiteSpace() default false;
 
     String message() default "Invalid password: ";
 

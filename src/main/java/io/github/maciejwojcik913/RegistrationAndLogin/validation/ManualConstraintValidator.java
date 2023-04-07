@@ -5,6 +5,9 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.Set;
 
+/**
+ * Class lets manually validate object which uses ConstraintValidator
+ */
 public class ManualConstraintValidator {
 
     public static boolean isValid(Object toValidate) {
@@ -13,7 +16,6 @@ public class ManualConstraintValidator {
 
     public static Set<ConstraintViolation<Object>> getConstraintViolations(Object toValidate) {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        Set<ConstraintViolation<Object>> violations = validator.validate(toValidate);
-        return violations;
+        return validator.validate(toValidate);
     }
 }
